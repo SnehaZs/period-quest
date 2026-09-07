@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Period Quest</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f7f0ff;
+        color: #30233d;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+    }
+
+    .game {
+        width: 100%;
+        max-width: 1000px;
+        padding: 25px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 5px;
+        color: #633b80;
+    }
+
+    .subtitle {
+        text-align: center;
+        margin-top: 0;
+        color: #765f82;
+    }
+
+    .stats {
+        display: flex;
+        justify-content: space-around;
+        background: white;
+        border-radius: 18px;
+        padding: 15px;
+        margin: 20px 0;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        font-weight: bold;
+    }
+
+    .stat {
+        text-align: center;
+    }
+
+    .stat span {
+        display: block;
+        font-size: 25px;
+        margin-bottom: 5px;
+    }
+
+    #maze {
+        display: grid;
+        grid-template-columns: repeat(15, 1fr);
+        width: min(90vw, 750px);
+        aspect-ratio: 1;
+        margin: auto;
+        border: 8px solid #633b80;
+        border-radius: 15px;
+        overflow: hidden;
+        background: #eee;
+    }
+
+    .cell {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: clamp(15px, 3vw, 30px);
+        user-select: none;
+    }
+
+    .wall {
+        background: #633b80;
+    }
+
+    .path {
+        background: #fffaff;
+    }
+
+    .player {
+        background: #ffd8e9;
+    }
+
+    .player::after {
+        content: "🧑";
+    }
+
+    .start {
+        background: #d9f5e5;
+    }
+
+    .start::after {
+        content: "🏠";
+    }
+
+    .goal {
+        background: #fff1b8;
+    }
+
+    .goal::after {
+        content: "🏆";
+    }
+
+    .event {
+        background: #dceeff;
+    }
+
+    .event::after {
+        content: "❓";
+    }
+
+    .completed {
+        background: #d8f8dc;
+    }
+
+    .completed::after {
+        content: "✓";
+        color: green;
+        font-weight: bold;
+    }
+
+    .instructions {
+        text-align: center;
+        margin: 20px;
+        font-size: 17px;
+    }
+
+    .controls {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    button {
+        border: none;
+        border-radius: 12px;
+        padding: 12px 20px;
+        margin: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        background: #633b80;
+        color: white;
+    }
+
+    button:hover {
+        opacity: 0.85;
+    }
+
+    .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(30, 20, 40, 0.65);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        z-index: 10;
+    }
+
+    .modal-content {
+        background: white;
+        max-width: 550px;
+        width: 100%;
+        border-radius: 25px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+    }
+
+    .modal-content h2 {
+        color: #633b80;
+    }
+
+    .choice {
+        display: block;
+        width: 100%;
+        margin: 12px 0;
+        background: #f1e6f8;
+        color: #30233d;
+    }
+
+    .choice:hover {
+        background: #e5d1f0;
+    }
+
+    .feedback {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 15px;
+        background: #f7f0ff;
+        display: none;
+    }
+
+    #endScreen {
+        display: none;
+        text-align: center;
+        background: white;
+        border-radius: 25px;
+        padding: 40px;
+        margin-top: 30px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+    }
+
+    .big-score {
+        font-size: 50px;
+        color: #633b80;
+        font-weight: bold;
+    }
+
+    .legend {
+        text-align: center;
+        margin-top: 15px;
+        color: #765f82;
+        font-size: 14px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="game">
+
+    <h1>🌸 PERIOD QUEST</h1>
+    <p class="subtitle">
+        Navigate the school day. Make informed choices. Build your confidence.
+    </p>
+
+    <div class="stats">
+        <div class="stat">
+            <span>🧠</span>
+            Knowledge
+            <div id="knowledge">0</div>
+        </div>
+
+        <div class="stat">
+            <span>💗</span>
+            Confidence
+            <div id="confidence">0</div>
+        </div>
+
+        <div class="stat">
+            <span>🫂</span>
+            Empathy
+            <div id="empathy">0</div>
+        </div>
+    </div>
+
+    <div id="maze"></div>
+
+    <p class="instructions">
+        🎮 Use <b>Arrow Keys</b> or <b>W A S D</b> to move.
+        <br>
+        Find the ❓ spaces and complete every challenge.
+    </p>
+
+    <div class="legend">
+        🏠 Start &nbsp; | &nbsp;
+        ❓ Challenge &nbsp; | &nbsp;
+        🏆 Finish
+    </div>
+
+    <div id="endScreen">
+        <h2>🎉 YOU COMPLETED PERIOD QUEST!</h2>
+
+        <p>You made it through the school day.</p>
+
+        <div class="big-score" id="totalScore">0</div>
+
+        <p>Overall Score</p>
+
+        <hr>
+
+        <p>🧠 Knowledge: <b id="finalKnowledge">0</b></p>
+        <p>💗 Confidence: <b id="finalConfidence">0</b></p>
+        <p>🫂 Empathy: <b id="finalEmpathy">0</b></p>
+
+        <p id="finalMessage"></p>
+
+        <button onclick="location.reload()">🔄 Play Again</button>
+    </div>
+
+</div>
+
+
+<!-- QUESTION MODAL -->
+
+<div class="modal" id="modal">
+
+    <div class="modal-content">
+
+        <h2 id="questionTitle"></h2>
+
+        <p id="questionText"></p>
+
+        <div id="choices"></div>
+
+        <div class="feedback" id="feedback"></div>
+
+        <button id="continueButton" style="display:none;">
+            Continue 🎮
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   GAME MAP
+========================= */
+
+const map = [
+"###############",
+"#S....#.......#",
+"###.#.#.#####.#",
+"#...#.#.....#.#",
+"#.###.#####.#.#",
+"#.....#...#...#",
+"#.#####.#.###.#",
+"#.....#.#.....#",
+"#.###.#.#####.#",
+"#...#.#.....#.#",
+"###.#.#####.#.#",
+"#...#.....#...#",
+"#.#######.###.#",
+"#......?......#",
+"#############G#"
+];
+
+/*
+# = wall
+. = path
+S = start
+? = challenge
+G = goal
+*/
+
+const maze = document.getElementById("maze");
+
+let player = {
+    row: 1,
+    col: 1
+};
+
+let scores = {
+    knowledge: 0,
+    confidence: 0,
+    empathy: 0
+};
+
+let completedChallenges = 0;
+
+
+/* =========================
+   CHALLENGES
+========================= */
+
+const challenges = [
+
+{
+    title: "🩸 A Surprise Period",
+    question:
+    "You are at school and realise that your period has started unexpectedly. What would be the most helpful response?",
+
+    choices: [
+
+        {
+            text: "Panic and immediately leave school.",
+            correct: false,
+            message:
+            "It is understandable to feel surprised, but getting support can help you handle the situation.",
+            scores: {knowledge: 0, confidence: 2, empathy: 0}
+        },
+
+        {
+            text: "Find a menstrual product and approach a trusted person if you need help.",
+            correct: true,
+            message:
+            "Exactly! Knowing where to get support can make unexpected situations much easier to handle.",
+            scores: {knowledge: 5, confidence: 5, empathy: 0}
+        },
+
+        {
+            text: "Ignore it and hope nobody notices.",
+            correct: false,
+            message:
+            "Ignoring the situation may make things more difficult. Asking for help is a healthy option.",
+            scores: {knowledge: 1, confidence: 0, empathy: 0}
+        }
+
+    ]
+},
+
+{
+    title: "🧠 Myth Monster",
+    question:
+    "TRUE or FALSE: Everyone experiences exactly the same symptoms during their period.",
+
+    choices: [
+
+        {
+            text: "TRUE",
+            correct: false,
+            message:
+            "People can experience menstruation differently. Symptoms and their intensity can vary.",
+            scores: {knowledge: 0, confidence: 0, empathy: 1}
+        },
+
+        {
+            text: "FALSE",
+            correct: true,
+            message:
+            "Correct! Menstrual experiences can vary from person to person.",
+            scores: {knowledge: 5, confidence: 2, empathy: 2}
+        }
+
+    ]
+},
+
+{
+    title: "🫂 A Friend Needs Help",
+    question:
+    "Your friend tells you that they got their period but do not have a menstrual product. What is the most supportive response?",
+
+    choices: [
+
+        {
+            text: "Make a joke about it.",
+            correct: false,
+            message:
+            "Periods should not be treated as something shameful or embarrassing.",
+            scores: {knowledge: 0, confidence: 0, empathy: -2}
+        },
+
+        {
+            text: "Tell them to deal with it themselves.",
+            correct: false,
+            message:
+            "A little support can make a big difference, especially when someone feels uncomfortable.",
+            scores: {knowledge: 0, confidence: 0, empathy: -1}
+        },
+
+        {
+            text: "Help them find a product or approach a trusted adult.",
+            correct: true,
+            message:
+            "Great choice! Supporting someone without embarrassment is an important part of menstrual health.",
+            scores: {knowledge: 3, confidence: 3, empathy: 5}
+        }
+
+    ]
+}
+
+];
+
+
+/* =========================
+   DRAW MAZE
+========================= */
+
+function drawMaze() {
+
+    maze.innerHTML = "";
+
+    for (let r = 0; r < map.length; r++) {
+
+        for (let c = 0; c < map[r].length; c++) {
+
+            const cell = document.createElement("div");
+
+            cell.classList.add("cell");
+
+            const value = map[r][c];
+
+            if (value === "#") {
+                cell.classList.add("wall");
+            }
+
+            else {
+
+                cell.classList.add("path");
+
+                if (value === "S") {
+                    cell.classList.add("start");
+                }
+
+                if (value === "G") {
+                    cell.classList.add("goal");
+                }
+
+                if (value === "?") {
+                    cell.classList.add("event");
+                }
+
+            }
+
+            if (r === player.row && c === player.col) {
+                cell.classList.add("player");
+            }
+
+            maze.appendChild(cell);
+        }
+    }
+}
+
+
+/* =========================
+   MOVEMENT
+========================= */
+
+document.addEventListener("keydown", function(event) {
+
+    let newRow = player.row;
+    let newCol = player.col;
+
+    const key = event.key.toLowerCase();
+
+    if (key === "arrowup" || key === "w") {
+        newRow--;
+    }
+
+    if (key === "arrowdown" || key === "s") {
+        newRow++;
+    }
+
+    if (key === "arrowleft" || key === "a") {
+        newCol--;
+    }
+
+    if (key === "arrowright" || key === "d") {
+        newCol++;
+    }
+
+    if (
+        map[newRow] &&
+        map[newRow][newCol] !== "#" &&
+        newRow >= 0 &&
+        newCol >= 0
+    ) {
+
+        player.row = newRow;
+        player.col = newCol;
+
+        drawMaze();
+
+        checkLocation();
+    }
+
+});
+
+
+/* =========================
+   LOCATION CHECK
+========================= */
+
+function checkLocation() {
+
+    const location = map[player.row][player.col];
+
+    if (location === "?") {
+
+        if (completedChallenges < challenges.length) {
+
+            openChallenge(challenges[completedChallenges]);
+
+        }
+
+    }
+
+    if (location === "G") {
+
+        if (completedChallenges >= challenges.length) {
+
+            finishGame();
+
+        }
+
+        else {
+
+            alert(
+                "You still have challenges to complete! 🎮\nFind the ❓ spaces first."
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =========================
+   CHALLENGE SYSTEM
+========================= */
+
+function openChallenge(challenge) {
+
+    const modal = document.getElementById("modal");
+
+    const title = document.getElementById("questionTitle");
+
+    const question = document.getElementById("questionText");
+
+    const choices = document.getElementById("choices");
+
+    const feedback = document.getElementById("feedback");
+
+    const continueButton =
+        document.getElementById("continueButton");
+
+    title.innerText = challenge.title;
+
+    question.innerText = challenge.question;
+
+    choices.innerHTML = "";
+
+    feedback.style.display = "none";
+
+    continueButton.style.display = "none";
+
+    challenge.choices.forEach(choice => {
+
+        const button = document.createElement("button");
+
+        button.classList.add("choice");
+
+        button.innerText = choice.text;
+
+        button.onclick = function() {
+
+            applyScores(choice.scores);
+
+            feedback.innerHTML =
+                (choice.correct ? "✅ " : "💡 ")
+                + choice.message;
+
+            feedback.style.display = "block";
+
+            choices.style.display = "none";
+
+            continueButton.style.display = "inline-block";
+
+        };
+
+        choices.appendChild(button);
+
+    });
+
+    continueButton.onclick = function() {
+
+        completedChallenges++;
+
+        modal.style.display = "none";
+
+        choices.style.display = "block";
+
+        drawMaze();
+
+        updateStats();
+
+    };
+
+    modal.style.display = "flex";
+
+}
+
+
+/* =========================
+   SCORE SYSTEM
+========================= */
+
+function applyScores(points) {
+
+    scores.knowledge += points.knowledge || 0;
+
+    scores.confidence += points.confidence || 0;
+
+    scores.empathy += points.empathy || 0;
+
+    scores.knowledge =
+        Math.max(0, scores.knowledge);
+
+    scores.confidence =
+        Math.max(0, scores.confidence);
+
+    scores.empathy =
+        Math.max(0, scores.empathy);
+
+    updateStats();
+}
+
+
+function updateStats() {
+
+    document.getElementById("knowledge").innerText =
+        scores.knowledge;
+
+    document.getElementById("confidence").innerText =
+        scores.confidence;
+
+    document.getElementById("empathy").innerText =
+        scores.empathy;
+
+}
+
+
+/* =========================
+   END GAME
+========================= */
+
+function finishGame() {
+
+    document.getElementById("maze").style.display = "none";
+
+    document.querySelector(".instructions").style.display = "none";
+
+    document.querySelector(".legend").style.display = "none";
+
+    document.getElementById("endScreen").style.display = "block";
+
+    const total =
+        scores.knowledge +
+        scores.confidence +
+        scores.empathy;
+
+    document.getElementById("totalScore").innerText =
+        total;
+
+    document.getElementById("finalKnowledge").innerText =
+        scores.knowledge;
+
+    document.getElementById("finalConfidence").innerText =
+        scores.confidence;
+
+    document.getElementById("finalEmpathy").innerText =
+        scores.empathy;
+
+    let message;
+
+    if (total >= 35) {
+
+        message =
+        "🌟 Excellent! You showed strong knowledge, confidence and empathy.";
+
+    }
+
+    else if (total >= 20) {
+
+        message =
+        "🌱 Great job! You are building your menstrual-health knowledge.";
+
+    }
+
+    else {
+
+        message =
+        "💗 Every question is a chance to learn. Keep exploring!";
+
+    }
+
+    document.getElementById("finalMessage").innerText =
+        message;
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+drawMaze();
+updateStats();
+
+</script>
+
+</body>
+</html>
