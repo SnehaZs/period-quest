@@ -1,1163 +1,2590 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Period Quest | Ujhass</title>
+
+<title>Period Quest 3.0 🌸</title>
 
 <style>
-*{
-  box-sizing:border-box;
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+    box-sizing: border-box;
 }
 
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:linear-gradient(135deg,#fce7f3,#e9d5ff,#dbeafe);
-  color:#24112f;
+body {
+    margin: 0;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    background:
+        radial-gradient(circle at top left, #fff5fb, transparent 35%),
+        radial-gradient(circle at bottom right, #eee3ff, transparent 35%),
+        #f8f1ff;
+    color: #35233f;
 }
 
-button{
-  font-family:inherit;
-  cursor:pointer;
+button {
+    font-family: inherit;
 }
 
-.screen{
-  min-height:100vh;
-  display:none;
-  padding:25px;
+
+/* =====================================================
+   SCREENS
+===================================================== */
+
+.screen {
+    min-height: 100vh;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
 }
 
-.screen.active{
-  display:flex;
+.screen.active {
+    display: flex;
 }
 
-/* ================= START ================= */
 
-#startScreen{
-  align-items:center;
-  justify-content:center;
+/* =====================================================
+   START SCREEN
+===================================================== */
+
+.start-card {
+    width: 100%;
+    max-width: 700px;
+    background: rgba(255,255,255,0.96);
+    padding: 55px 40px;
+    border-radius: 35px;
+    text-align: center;
+    box-shadow: 0 20px 70px rgba(80,45,100,0.16);
 }
 
-.start-card{
-  width:min(850px,100%);
-  text-align:center;
-  background:rgba(255,255,255,.9);
-  border-radius:35px;
-  padding:50px 30px;
-  box-shadow:0 20px 60px rgba(70,30,100,.2);
+.flower {
+    font-size: 75px;
+    animation: float 2.5s ease-in-out infinite;
 }
 
-.logo{
-  font-size:22px;
-  font-weight:bold;
-  color:#7c3aed;
-  letter-spacing:2px;
+@keyframes float {
+
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+
 }
 
-h1{
-  font-size:clamp(42px,8vw,80px);
-  margin:15px 0 5px;
-  color:#6d28d9;
+.start-card h1 {
+    margin: 5px 0;
+    color: #633b80;
+    font-size: clamp(42px,8vw,72px);
+    letter-spacing: 1px;
 }
 
-.subtitle{
-  font-size:20px;
-  color:#6b4b75;
+.tagline {
+    color: #82688e;
+    font-size: 19px;
 }
 
-.start-button{
-  margin-top:30px;
-  padding:18px 40px;
-  border:0;
-  border-radius:50px;
-  background:#7c3aed;
-  color:white;
-  font-size:20px;
-  font-weight:bold;
-  box-shadow:0 8px 20px rgba(124,58,237,.3);
+.start-text {
+    line-height: 1.7;
+    max-width: 520px;
+    margin: 30px auto;
 }
 
-.start-button:hover{
-  transform:translateY(-2px);
+.feature-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin: 25px 0;
 }
 
-/* ================= GAME ================= */
-
-#gameScreen{
-  flex-direction:column;
-  max-width:1200px;
-  margin:auto;
-  width:100%;
+.feature {
+    background: #faf1ff;
+    padding: 12px 17px;
+    border-radius: 15px;
 }
 
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  flex-wrap:wrap;
-  margin-bottom:18px;
+.primary-button {
+    border: none;
+    border-radius: 50px;
+    padding: 16px 40px;
+    background: #633b80;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .2s;
 }
 
-.brand{
-  font-size:24px;
-  font-weight:bold;
-  color:#6d28d9;
+.primary-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(99,59,128,.25);
 }
 
-.stats{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
+
+/* =====================================================
+   GAME
+===================================================== */
+
+.game-wrapper {
+    width: 100%;
+    max-width: 1100px;
 }
 
-.stat{
-  background:white;
-  padding:9px 14px;
-  border-radius:20px;
-  font-weight:bold;
-  box-shadow:0 3px 12px rgba(0,0,0,.08);
+.header {
+    text-align: center;
+    margin-bottom: 15px;
 }
 
-.game-layout{
-  display:grid;
-  grid-template-columns:1fr 300px;
-  gap:20px;
+.header h1 {
+    color: #633b80;
+    margin-bottom: 4px;
 }
 
-@media(max-width:850px){
-  .game-layout{
-    grid-template-columns:1fr;
-  }
+.header p {
+    margin-top: 0;
+    color: #80688b;
 }
 
-.map-container{
-  background:rgba(255,255,255,.85);
-  border-radius:25px;
-  padding:15px;
-  box-shadow:0 10px 30px rgba(0,0,0,.1);
+
+/* =====================================================
+   TOP BAR
+===================================================== */
+
+.top-bar {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 12px;
+    margin-bottom: 15px;
 }
 
-.map{
-  display:grid;
-  grid-template-columns:repeat(21,1fr);
-  aspect-ratio:1;
-  width:100%;
-  background:#ddd;
-  border-radius:15px;
-  overflow:hidden;
+.panel {
+    background: white;
+    border-radius: 18px;
+    padding: 12px;
+    box-shadow: 0 5px 20px rgba(70,40,80,.08);
 }
 
-.cell{
-  position:relative;
+.lives {
+    text-align: center;
 }
 
-.wall{
-  background:#6d28d9;
+.life {
+    font-size: 22px;
 }
 
-.path{
-  background:#fff7fb;
+.xp-panel {
+    text-align: center;
 }
 
-.start-cell{
-  background:#a7f3d0;
+.xp-bar {
+    height: 10px;
+    background: #eee3f4;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 7px;
 }
 
-.exit-cell{
-  background:#fde68a;
+.xp-fill {
+    height: 100%;
+    width: 0%;
+    background: #a66bc4;
+    transition: width .4s;
 }
 
-.player{
-  width:70%;
-  height:70%;
-  margin:15%;
-  border-radius:50%;
-  background:#ec4899;
-  border:3px solid white;
-  box-shadow:0 3px 10px rgba(0,0,0,.3);
-  animation:bounce .8s infinite alternate;
+.inventory {
+    text-align: center;
 }
 
-@keyframes bounce{
-  from{transform:translateY(0);}
-  to{transform:translateY(-3px);}
+.inventory-items {
+    min-height: 25px;
+    font-size: 20px;
 }
 
-.npc{
-  width:70%;
-  height:70%;
-  margin:15%;
-  border-radius:50%;
-  background:#38bdf8;
-  border:3px solid white;
+
+/* =====================================================
+   SCORE CARDS
+===================================================== */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
-.monster{
-  width:72%;
-  height:72%;
-  margin:14%;
-  border-radius:25%;
-  background:#ef4444;
-  border:3px solid white;
-  box-shadow:0 0 15px rgba(239,68,68,.6);
-  animation:monsterPulse .8s infinite alternate;
+.stat {
+    background: white;
+    border-radius: 18px;
+    padding: 11px;
+    text-align: center;
+    box-shadow: 0 5px 18px rgba(70,40,80,.07);
 }
 
-@keyframes monsterPulse{
-  from{transform:scale(1);}
-  to{transform:scale(1.12);}
+.stat-icon {
+    font-size: 23px;
 }
 
-.side-panel{
-  display:flex;
-  flex-direction:column;
-  gap:15px;
+.stat-name {
+    color: #80688b;
+    font-size: 12px;
 }
 
-.panel{
-  background:white;
-  border-radius:22px;
-  padding:20px;
-  box-shadow:0 8px 25px rgba(0,0,0,.1);
+.stat-value {
+    color: #633b80;
+    font-weight: bold;
+    font-size: 21px;
 }
 
-.panel h3{
-  margin-top:0;
-  color:#6d28d9;
+
+/* =====================================================
+   GAME LAYOUT
+===================================================== */
+
+.game-layout {
+    display: grid;
+    grid-template-columns: 1fr 250px;
+    gap: 15px;
 }
 
-.controls{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:7px;
-  margin-top:10px;
+
+/* =====================================================
+   MAP
+===================================================== */
+
+.map-card {
+    background: white;
+    border-radius: 28px;
+    padding: 18px;
+    box-shadow: 0 10px 35px rgba(70,40,80,.10);
 }
 
-.controls button{
-  padding:12px;
-  border:0;
-  border-radius:12px;
-  background:#ede9fe;
-  font-size:20px;
+.map-title {
+    text-align: center;
+    color: #633b80;
+    font-weight: bold;
+    margin-bottom: 12px;
 }
 
-.controls .empty{
-  visibility:hidden;
+.map {
+    display: grid;
+    grid-template-columns: repeat(21,1fr);
+    width: 100%;
+    max-width: 760px;
+    aspect-ratio: 1;
+    margin: auto;
+    overflow: hidden;
+    border-radius: 18px;
+    border: 6px solid #633b80;
 }
 
-.badges{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
+.cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(10px,2.1vw,24px);
+    position: relative;
 }
 
-.badge{
-  padding:6px 10px;
-  border-radius:15px;
-  background:#f3e8ff;
-  font-size:12px;
+.wall {
+    background: #633b80;
 }
 
-/* ================= MODAL ================= */
-
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(30,10,40,.65);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  z-index:20;
+.floor {
+    background: #fffafd;
 }
 
-.modal.active{
-  display:flex;
+.player {
+    background: #ffd9eb;
+    z-index: 2;
 }
 
-.modal-card{
-  width:min(700px,100%);
-  max-height:90vh;
-  overflow:auto;
-  background:white;
-  border-radius:30px;
-  padding:35px;
-  text-align:center;
-  box-shadow:0 25px 80px rgba(0,0,0,.3);
+.player::after {
+    content: "🧍";
+    animation: walk .35s infinite alternate;
 }
 
-.modal-card h2{
-  color:#6d28d9;
-  font-size:32px;
+@keyframes walk {
+
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-2px);
+    }
+
 }
 
-.question{
-  font-size:22px;
-  font-weight:bold;
-  line-height:1.4;
-  margin:20px 0;
+.start {
+    background: #def5e4;
 }
 
-.answers{
-  display:grid;
-  gap:12px;
+.start::after {
+    content: "🏠";
 }
 
-.answer{
-  border:2px solid #e9d5ff;
-  background:#faf5ff;
-  padding:16px;
-  border-radius:18px;
-  font-size:17px;
-  text-align:left;
+.washroom {
+    background: #dff4ff;
 }
 
-.answer:hover{
-  background:#f3e8ff;
+.washroom::after {
+    content: "🚻";
 }
 
-.answer.correct{
-  background:#dcfce7;
-  border-color:#22c55e;
+.myth {
+    background: #eee0ff;
 }
 
-.answer.wrong{
-  background:#fee2e2;
-  border-color:#ef4444;
+.myth::after {
+    content: "👾";
 }
 
-.feedback{
-  margin-top:20px;
-  padding:18px;
-  border-radius:18px;
-  background:#f5f3ff;
-  line-height:1.5;
+.friend {
+    background: #ffe5f0;
 }
 
-.next-button{
-  margin-top:20px;
-  padding:14px 30px;
-  border:0;
-  border-radius:30px;
-  background:#7c3aed;
-  color:white;
-  font-weight:bold;
-  font-size:17px;
+.friend::after {
+    content: "🫂";
 }
 
-/* ================= END ================= */
-
-#endScreen{
-  align-items:center;
-  justify-content:center;
+.health {
+    background: #e2f6ee;
 }
 
-.end-card{
-  background:white;
-  padding:45px 30px;
-  width:min(700px,100%);
-  border-radius:35px;
-  text-align:center;
-  box-shadow:0 20px 60px rgba(0,0,0,.15);
+.health::after {
+    content: "🩺";
 }
 
-.trophy{
-  font-size:75px;
+.exit {
+    background: #fff0b6;
 }
 
-.error-box{
-  display:none;
-  position:fixed;
-  bottom:10px;
-  left:10px;
-  right:10px;
-  background:#7f1d1d;
-  color:white;
-  padding:15px;
-  border-radius:15px;
-  z-index:100;
-  font-size:13px;
+.exit::after {
+    content: "🏆";
 }
+
+.completed {
+    background: #dcf6df;
+}
+
+.completed::after {
+    content: "✅";
+}
+
+
+/* =====================================================
+   MISSION PANEL
+===================================================== */
+
+.mission {
+    background: white;
+    border-radius: 25px;
+    padding: 20px;
+    box-shadow: 0 8px 30px rgba(70,40,80,.09);
+}
+
+.mission h2 {
+    margin-top: 0;
+    color: #633b80;
+}
+
+.mission-item {
+    padding: 11px;
+    margin: 8px 0;
+    border-radius: 12px;
+    background: #faf5ff;
+    font-size: 14px;
+}
+
+.mission-item.done {
+    background: #e1f6e4;
+    text-decoration: line-through;
+}
+
+.tip {
+    margin-top: 20px;
+    background: #fff7df;
+    border-radius: 15px;
+    padding: 13px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/* =====================================================
+   CONTROLS
+===================================================== */
+
+.controls {
+    width: 210px;
+    margin: 18px auto 5px;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 7px;
+}
+
+.control {
+    height: 55px;
+    border: none;
+    border-radius: 14px;
+    background: #633b80;
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.control:active {
+    transform: scale(.94);
+}
+
+.empty {
+    visibility: hidden;
+}
+
+.keyboard-help {
+    text-align: center;
+    font-size: 13px;
+    color: #80688b;
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(40,25,50,.72);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 50;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-card {
+    background: white;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 30px;
+    padding: 32px;
+    text-align: center;
+    animation: pop .25s ease;
+}
+
+@keyframes pop {
+
+    from {
+        transform: scale(.85);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+}
+
+.modal-icon {
+    font-size: 55px;
+}
+
+.modal-card h2 {
+    color: #633b80;
+}
+
+.choice {
+    width: 100%;
+    border: 2px solid #eadcf2;
+    background: #fbf7ff;
+    color: #35233f;
+    border-radius: 15px;
+    padding: 14px;
+    margin: 8px 0;
+    text-align: left;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.choice:hover {
+    background: #f0e3f7;
+}
+
+.feedback {
+    display: none;
+    background: #f7effc;
+    padding: 16px;
+    border-radius: 15px;
+    margin-top: 15px;
+    line-height: 1.6;
+}
+
+.feedback.show {
+    display: block;
+}
+
+.next-button {
+    display: none;
+    margin-top: 15px;
+}
+
+
+/* =====================================================
+   HEALTH CARD
+===================================================== */
+
+.health-card {
+    background: #f0faf5;
+    border-radius: 18px;
+    padding: 15px;
+    margin-top: 15px;
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   END
+===================================================== */
+
+.end-card {
+    width: 100%;
+    max-width: 700px;
+    background: white;
+    padding: 45px;
+    border-radius: 35px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(80,45,100,.15);
+}
+
+.final-score {
+    font-size: 70px;
+    font-weight: bold;
+    color: #633b80;
+}
+
+.final-stats {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 10px;
+    margin: 25px 0;
+}
+
+.final-stat {
+    background: #faf3ff;
+    border-radius: 16px;
+    padding: 15px;
+}
+
+.badge {
+    font-size: 55px;
+}
+
+.final-message {
+    color: #6d5877;
+    line-height: 1.7;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:800px) {
+
+    .game-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .mission {
+        order: 2;
+    }
+
+    .top-bar {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .inventory {
+        grid-column: span 2;
+    }
+
+}
+
+@media(max-width:500px) {
+
+    .screen {
+        padding: 12px;
+    }
+
+    .start-card {
+        padding: 40px 20px;
+    }
+
+    .map-card {
+        padding: 10px;
+    }
+
+    .stats {
+        gap: 5px;
+    }
+
+    .stat {
+        padding: 8px 3px;
+    }
+
+    .stat-value {
+        font-size: 18px;
+    }
+
+    .final-stats {
+        grid-template-columns: 1fr;
+    }
+
+}
+
 </style>
 </head>
 
+
 <body>
 
-<!-- ================= START ================= -->
+
+<!-- =====================================================
+     START SCREEN
+===================================================== -->
 
 <section id="startScreen" class="screen active">
 
-  <div class="start-card">
+    <div class="start-card">
 
-    <div class="logo">UJHASS • HEALTHY GIRLS. BRIGHTER FUTURES.</div>
+        <div class="flower">🌸</div>
 
-    <h1>PERIOD QUEST</h1>
+        <h1>PERIOD QUEST</h1>
 
-    <p class="subtitle">
-      Explore. Learn. Decide. Support.
-    </p>
+        <div class="tagline">
+            Your day. Your choices. Your confidence.
+        </div>
 
-    <p>
-      Enter the world of Period Quest and complete challenges
-      that turn menstrual-health learning into an adventure.
-    </p>
+        <p class="start-text">
 
-    <button class="start-button" onclick="startGame()">
-      🚀 START QUEST
-    </button>
+            A school day can bring unexpected situations.
+            Explore the campus, make choices, challenge myths
+            and discover how knowledge can build confidence.
 
-  </div>
+        </p>
+
+        <div class="feature-grid">
+
+            <div class="feature">🗺️ Explore</div>
+
+            <div class="feature">🧠 Learn</div>
+
+            <div class="feature">👾 Defeat myths</div>
+
+            <div class="feature">🫂 Support friends</div>
+
+            <div class="feature">🏆 Earn badges</div>
+
+        </div>
+
+        <button
+            class="primary-button"
+            onclick="startGame()">
+
+            🎮 START QUEST
+
+        </button>
+
+    </div>
 
 </section>
 
 
-<!-- ================= GAME ================= -->
+
+<!-- =====================================================
+     GAME SCREEN
+===================================================== -->
 
 <section id="gameScreen" class="screen">
 
-  <div class="topbar">
+<div class="game-wrapper">
 
-    <div class="brand">🌸 PERIOD QUEST</div>
+
+    <div class="header">
+
+        <h1>🌸 PERIOD QUEST</h1>
+
+        <p>
+            Complete your school-day mission.
+        </p>
+
+    </div>
+
+
+    <!-- TOP BAR -->
+
+    <div class="top-bar">
+
+
+        <div class="panel lives">
+
+            ❤️
+            <span id="lives">❤️❤️❤️</span>
+
+            <br>
+
+            <small>Lives</small>
+
+        </div>
+
+
+        <div class="panel xp-panel">
+
+            ⭐ XP:
+            <b id="xp">0</b>
+
+            <div class="xp-bar">
+
+                <div
+                    id="xpFill"
+                    class="xp-fill">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel inventory">
+
+            🎒 Inventory
+
+            <div
+                id="inventory"
+                class="inventory-items">
+
+                Empty
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- SCORES -->
 
     <div class="stats">
-      <div class="stat">❤️ Lives: <span id="lives">3</span></div>
-      <div class="stat">⭐ XP: <span id="xp">0</span></div>
-      <div class="stat">🧠 Knowledge: <span id="knowledge">0</span></div>
-    </div>
-
-  </div>
 
 
-  <div class="game-layout">
+        <div class="stat">
 
-    <div class="map-container">
+            <div class="stat-icon">🧠</div>
 
-      <div id="map" class="map"></div>
+            <div class="stat-name">
+                KNOWLEDGE
+            </div>
 
-    </div>
+            <div
+                id="knowledge"
+                class="stat-value">
 
+                50
 
-    <div class="side-panel">
-
-      <div class="panel">
-
-        <h3>🎯 Mission</h3>
-
-        <p id="mission">
-          Explore the maze and find the Myth Monster.
-        </p>
-
-      </div>
-
-
-      <div class="panel">
-
-        <h3>🎮 Controls</h3>
-
-        <div class="controls">
-
-          <button class="empty"></button>
-          <button onclick="movePlayer(0,-1)">⬆️</button>
-          <button class="empty"></button>
-
-          <button onclick="movePlayer(-1,0)">⬅️</button>
-          <button onclick="movePlayer(0,1)">⬇️</button>
-          <button onclick="movePlayer(1,0)">➡️</button>
+            </div>
 
         </div>
 
-        <p style="font-size:12px;">
-          Keyboard: Arrow Keys or WASD
-        </p>
 
-      </div>
+        <div class="stat">
 
+            <div class="stat-icon">💗</div>
 
-      <div class="panel">
+            <div class="stat-name">
+                CONFIDENCE
+            </div>
 
-        <h3>🏆 Badges</h3>
+            <div
+                id="confidence"
+                class="stat-value">
 
-        <div id="badges" class="badges">
-          <span class="badge">🔒 Myth Buster</span>
-          <span class="badge">🔒 Support Star</span>
-          <span class="badge">🔒 Health Hero</span>
+                50
+
+            </div>
+
         </div>
 
-      </div>
+
+        <div class="stat">
+
+            <div class="stat-icon">🫂</div>
+
+            <div class="stat-name">
+                CARE
+            </div>
+
+            <div
+                id="care"
+                class="stat-value">
+
+                50
+
+            </div>
+
+        </div>
+
 
     </div>
 
-  </div>
 
-</section>
+    <!-- GAME -->
+
+    <div class="game-layout">
 
 
-<!-- ================= MODAL ================= -->
+        <div class="map-card">
 
-<div id="modal" class="modal">
+            <div class="map-title">
+                🏫 SCHOOL CAMPUS
+            </div>
 
-  <div class="modal-card">
+            <div
+                id="map"
+                class="map">
+            </div>
 
-    <div id="modalContent"></div>
 
-  </div>
+            <div class="controls">
+
+                <button
+                    class="control empty">
+                    .
+                </button>
+
+                <button
+                    class="control"
+                    onclick="move(-1,0)">
+                    ⬆️
+                </button>
+
+                <button
+                    class="control empty">
+                    .
+                </button>
+
+
+                <button
+                    class="control"
+                    onclick="move(0,-1)">
+                    ⬅️
+                </button>
+
+                <button
+                    class="control"
+                    onclick="move(1,0)">
+                    ⬇️
+                </button>
+
+                <button
+                    class="control"
+                    onclick="move(0,1)">
+                    ➡️
+                </button>
+
+            </div>
+
+
+            <div class="keyboard-help">
+
+                Arrow keys / WASD / touch controls
+
+            </div>
+
+        </div>
+
+
+        <!-- MISSION -->
+
+        <div class="mission">
+
+            <h2>🎯 Mission</h2>
+
+            <div
+                id="missionWashroom"
+                class="mission-item">
+
+                🚻 Visit the washroom
+
+            </div>
+
+            <div
+                id="missionMyth"
+                class="mission-item">
+
+                👾 Defeat the Myth Monster
+
+            </div>
+
+            <div
+                id="missionFriend"
+                class="mission-item">
+
+                🫂 Help your friend
+
+            </div>
+
+            <div
+                id="missionHealth"
+                class="mission-item">
+
+                🩺 Visit the health room
+
+            </div>
+
+            <div
+                id="missionExit"
+                class="mission-item">
+
+                🏆 Reach the school exit
+
+            </div>
+
+
+            <div class="tip">
+
+                💡 <b>Tip:</b><br>
+
+                Explore the school.
+                Every special location has something
+                to teach you.
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
+</section>
 
-<!-- ================= END ================= -->
+
+
+<!-- =====================================================
+     END SCREEN
+===================================================== -->
 
 <section id="endScreen" class="screen">
 
-  <div class="end-card">
+    <div class="end-card">
 
-    <div class="trophy">🏆</div>
+        <div class="flower">🌸</div>
 
-    <h1>QUEST COMPLETE!</h1>
+        <h1>QUEST COMPLETE!</h1>
 
-    <p>
-      You defeated the Myth Monster and completed your Period Quest.
-    </p>
+        <p>
+            You made it through the school day.
+        </p>
 
-    <h2>🌸 PERIOD CHAMPION 🌸</h2>
+        <div
+            id="finalScore"
+            class="final-score">
 
-    <p>
-      Knowledge + Confidence + Care
-    </p>
+            0
 
-    <h3>⭐ Final XP: <span id="finalXP">0</span></h3>
+        </div>
 
-    <button class="start-button" onclick="location.reload()">
-      🔄 PLAY AGAIN
-    </button>
+        <p>
+            TOTAL XP
+        </p>
 
-  </div>
+
+        <div class="final-stats">
+
+
+            <div class="final-stat">
+
+                🧠
+
+                <br>
+
+                Knowledge
+
+                <br>
+
+                <b id="finalKnowledge">
+                    0
+                </b>
+
+            </div>
+
+
+            <div class="final-stat">
+
+                💗
+
+                <br>
+
+                Confidence
+
+                <br>
+
+                <b id="finalConfidence">
+                    0
+                </b>
+
+            </div>
+
+
+            <div class="final-stat">
+
+                🫂
+
+                <br>
+
+                Care
+
+                <br>
+
+                <b id="finalCare">
+                    0
+                </b>
+
+            </div>
+
+
+        </div>
+
+
+        <div
+            id="badge"
+            class="badge">
+
+            🌟
+
+        </div>
+
+
+        <h2 id="badgeTitle">
+            Period Quest Explorer
+        </h2>
+
+
+        <p
+            id="finalMessage"
+            class="final-message">
+
+        </p>
+
+
+        <button
+            class="primary-button"
+            onclick="location.reload()">
+
+            🔄 PLAY AGAIN
+
+        </button>
+
+    </div>
 
 </section>
 
 
-<div id="errorBox" class="error-box"></div>
+
+<!-- =====================================================
+     MODAL
+===================================================== -->
+
+<div
+    id="modal"
+    class="modal">
+
+    <div class="modal-card">
+
+        <div
+            id="modalIcon"
+            class="modal-icon">
+
+            🌸
+
+        </div>
+
+
+        <h2 id="modalTitle"></h2>
+
+
+        <p id="modalQuestion"></p>
+
+
+        <div id="choices"></div>
+
+
+        <div
+            id="feedback"
+            class="feedback">
+
+        </div>
+
+
+        <div
+            id="healthCard"
+            class="health-card"
+            style="display:none;">
+
+        </div>
+
+
+        <button
+            id="nextButton"
+            class="primary-button next-button"
+            onclick="closeChallenge()">
+
+            CONTINUE 🎮
+
+        </button>
+
+    </div>
+
+</div>
+
 
 
 <script>
 
 /* =====================================================
-   PERIOD QUEST V4
-   ===================================================== */
+   MAP
+===================================================== */
+
+/*
+
+# = wall
+. = floor
+S = start
+W = washroom
+M = myth room
+F = friend
+H = health room
+G = goal
+
+*/
+
+const map = [
+
+"#####################",
+
+"#S....#.......#.....#",
+
+"#.###.#.#####.#.###.#",
+
+"#...#.#.....#.#...#.#",
+
+"###.#.#####.#.###.#.#",
+
+"#...#.....#.#.....#.#",
+
+"#.#######.#.#######.#",
+
+"#.........#.........#",
+
+"#.#######.#########.#",
+
+"#.#.....#.....#.....#",
+
+"#.#.###.#####.#.###.#",
+
+"#...#...#.....#...#.#",
+
+"#####.#.#######.#.#.#",
+
+"#.....#.....W...#...#",
+
+"#.###########.#####.#",
+
+"#...M.......#...F...#",
+
+"#.#####.#####.#####.#",
+
+"#.....#...H.....#...#",
+
+"#.###########.###.#.#",
+
+"#.................G.#",
+
+"#####################"
+
+];
+
+
+/* =====================================================
+   PLAYER
+===================================================== */
 
 let player = {
-  x:1,
-  y:1
+
+    row: 1,
+
+    col: 1
+
 };
 
-let xp = 0;
+
+/* =====================================================
+   GAME STATE
+===================================================== */
+
 let lives = 3;
-let knowledge = 0;
 
-let gameStarted = false;
-let monsterDefeated = false;
+let xp = 0;
 
-let currentMyth = 0;
-let mythAnswered = false;
+let scores = {
+
+    knowledge: 50,
+
+    confidence: 50,
+
+    care: 50
+
+};
+
+let inventory = [];
+
+let completed = {
+
+    W: false,
+
+    M: false,
+
+    F: false,
+
+    H: false
+
+};
+
+let currentChallenge = null;
+
+let mythRound = 0;
 
 
 /* =====================================================
-   MAZE
-   ===================================================== */
+   CHALLENGES
+===================================================== */
 
-const maze = [
-"#####################",
-"#S....#.............#",
-"###.#.#.#############",
-"#...#.#.............#",
-"#.###.#############.#",
-"#.....#.............#",
-"#####.#.#############",
-"#.....#.............#",
-"#.#####.#############",
-"#.......#...........#",
-"#########.#########.#",
-"#.........#.........#",
-"#.#########.#########",
-"#.........#.........#",
-"#########.#.########",
-"#.........#.........#",
-"#.#########.#########",
-"#.........#.........#",
-"#.###############.#M#",
-"#...................#",
-"#####################"
+const challenges = {
+
+
+    W: {
+
+        icon: "🚻",
+
+        title: "A Surprise Period",
+
+        question:
+        "You are at school and realise your period has started unexpectedly. What would be the most helpful response?",
+
+        choices: [
+
+            {
+
+                text:
+                "😰 Panic and immediately leave school.",
+
+                correct: false,
+
+                feedback:
+                "Feeling surprised is understandable. But knowing where to find support can make the situation easier.",
+
+                points:
+                { knowledge:0, confidence:2, care:0 }
+
+            },
+
+            {
+
+                text:
+                "🌸 Find a menstrual product and approach a trusted person if you need help.",
+
+                correct: true,
+
+                feedback:
+                "Great choice! Asking for support when you need it is completely okay.",
+
+                points:
+                { knowledge:7, confidence:7, care:2 },
+
+                item:
+                "🩷 Pad"
+
+            },
+
+            {
+
+                text:
+                "🙈 Ignore it and hope nobody notices.",
+
+                correct: false,
+
+                feedback:
+                "Ignoring the situation may make it harder to manage. Seeking appropriate support is a healthy option.",
+
+                points:
+                { knowledge:2, confidence:0, care:0 }
+
+            }
+
+        ]
+
+    },
+
+
+    F: {
+
+        icon: "🫂",
+
+        title: "Your Friend Needs Help",
+
+        question:
+        "Your friend tells you that they got their period but do not have a menstrual product. What would you do?",
+
+        choices: [
+
+            {
+
+                text:
+                "😂 Make a joke about it.",
+
+                correct: false,
+
+                feedback:
+                "Periods should not be treated as something shameful or embarrassing.",
+
+                points:
+                { knowledge:0, confidence:0, care:-8 }
+
+            },
+
+            {
+
+                text:
+                "🤷 Tell them to deal with it themselves.",
+
+                correct: false,
+
+                feedback:
+                "A little support can make a big difference when someone feels unsure.",
+
+                points:
+                { knowledge:1, confidence:0, care:-3 }
+
+            },
+
+            {
+
+                text:
+                "💗 Help them find a product or approach a trusted adult.",
+
+                correct: true,
+
+                feedback:
+                "Excellent! Supporting someone without shame helps create a more comfortable environment.",
+
+                points:
+                { knowledge:5, confidence:5, care:9 },
+
+                item:
+                "💗 Care Badge"
+
+            }
+
+        ]
+
+    },
+
+
+    H: {
+
+        icon: "🩺",
+
+        title: "Health Room",
+
+        question:
+        "You have questions about your menstrual health and aren't sure whether something you are experiencing is normal. What is a sensible next step?",
+
+        choices: [
+
+            {
+
+                text:
+                "🙊 Never tell anyone because periods are private.",
+
+                correct: false,
+
+                feedback:
+                "Privacy is important, but you can still seek help from a trusted adult or health professional when you have concerns.",
+
+                points:
+                { knowledge:0, confidence:-2, care:0 }
+
+            },
+
+            {
+
+                text:
+                "🩺 Talk to a trusted adult or qualified health professional.",
+
+                correct: true,
+
+                feedback:
+                "Correct. Questions and concerns about your body deserve a safe, respectful and informed response.",
+
+                points:
+                { knowledge:8, confidence:7, care:2 },
+
+                item:
+                "🩺 Health Token"
+
+            }
+
+        ]
+
+    }
+
+};
+
+
+/* =====================================================
+   MYTH MONSTER ROUNDS
+===================================================== */
+
+const mythRounds = [
+
+    {
+
+        question:
+        "MYTH: Everyone experiences exactly the same symptoms during their period.",
+
+        answer:
+        "FALSE",
+
+        explanation:
+        "Menstrual experiences can vary from person to person. Symptoms and their intensity can be different.",
+
+        points:
+        { knowledge:10, confidence:4, care:3 }
+
+    },
+
+    {
+
+        question:
+        "MYTH: Talking about menstruation should always be embarrassing.",
+
+        answer:
+        "FALSE",
+
+        explanation:
+        "Open, respectful conversations can help people find accurate information and support.",
+
+        points:
+        { knowledge:10, confidence:7, care:5 }
+
+    },
+
+    {
+
+        question:
+        "MYTH: People can have different menstrual experiences and still all be normal.",
+
+        answer:
+        "TRUE",
+
+        explanation:
+        "Correct. There is variation in menstrual experiences. If someone has concerning symptoms, they can seek professional advice.",
+
+        points:
+        { knowledge:10, confidence:5, care:4 }
+
+    }
+
 ];
 
-const CELL_SIZE = 21;
-
 
 /* =====================================================
-   MYTHS
-   ===================================================== */
+   START
+===================================================== */
 
-const myths = [
+function startGame() {
 
-  {
-    title:"MYTH 1",
-    question:"You should avoid bathing during your period.",
-    answers:[
-      "True",
-      "False"
-    ],
-    correct:1,
-    explanation:
-      "False! Bathing during your period is completely okay. " +
-      "Good hygiene can help you feel fresh and comfortable."
-  },
+    document
+        .getElementById("startScreen")
+        .classList.remove("active");
 
-  {
-    title:"MYTH 2",
-    question:"Having a period means you cannot exercise.",
-    answers:[
-      "True",
-      "False"
-    ],
-    correct:1,
-    explanation:
-      "False! Many people can safely exercise during their period. " +
-      "Movement can even help some people feel better."
-  },
+    document
+        .getElementById("gameScreen")
+        .classList.add("active");
 
-  {
-    title:"MYTH 3",
-    question:"Periods are something that should be kept secret or felt ashamed of.",
-    answers:[
-      "True",
-      "False"
-    ],
-    correct:1,
-    explanation:
-      "False! Menstruation is a normal biological process. " +
-      "People should be able to talk about menstrual health respectfully " +
-      "and ask for support when they need it."
-  }
+    drawMap();
 
-];
-
-
-/* =====================================================
-   START GAME
-   ===================================================== */
-
-function startGame(){
-
-  gameStarted = true;
-
-  document.getElementById("startScreen")
-    .classList.remove("active");
-
-  document.getElementById("gameScreen")
-    .classList.add("active");
-
-  drawMap();
+    updateUI();
 
 }
 
 
 /* =====================================================
    DRAW MAP
-   ===================================================== */
+===================================================== */
 
-function drawMap(){
+function drawMap() {
 
-  const map = document.getElementById("map");
+    const mapElement =
+        document.getElementById("map");
 
-  map.innerHTML = "";
+    mapElement.innerHTML = "";
 
-  for(let y=0; y<maze.length; y++){
 
-    for(let x=0; x<maze[y].length; x++){
+    for(let r=0; r<map.length; r++) {
 
-      const cell = document.createElement("div");
+        for(let c=0; c<map[r].length; c++) {
 
-      cell.classList.add("cell");
+            const cell =
+                document.createElement("div");
 
-      const value = maze[y][x];
+            cell.className = "cell";
 
-      if(value === "#"){
-        cell.classList.add("wall");
-      }
 
-      else{
+            const value =
+                map[r][c];
 
-        cell.classList.add("path");
 
-        if(value === "S"){
-          cell.classList.add("start-cell");
+            if(value === "#") {
+
+                cell.classList.add("wall");
+
+            }
+
+            else {
+
+                cell.classList.add("floor");
+
+
+                if(value === "S")
+                    cell.classList.add("start");
+
+
+                if(value === "W") {
+
+                    if(completed.W)
+                        cell.classList.add("completed");
+
+                    else
+                        cell.classList.add("washroom");
+
+                }
+
+
+                if(value === "M") {
+
+                    if(completed.M)
+                        cell.classList.add("completed");
+
+                    else
+                        cell.classList.add("myth");
+
+                }
+
+
+                if(value === "F") {
+
+                    if(completed.F)
+                        cell.classList.add("completed");
+
+                    else
+                        cell.classList.add("friend");
+
+                }
+
+
+                if(value === "H") {
+
+                    if(completed.H)
+                        cell.classList.add("completed");
+
+                    else
+                        cell.classList.add("health");
+
+                }
+
+
+                if(value === "G")
+                    cell.classList.add("exit");
+
+            }
+
+
+            if(
+                r === player.row &&
+                c === player.col
+            ) {
+
+                cell.classList.add("player");
+
+            }
+
+
+            mapElement.appendChild(cell);
+
         }
-
-        if(value === "M"){
-          cell.classList.add("exit-cell");
-        }
-
-        if(
-          x === player.x &&
-          y === player.y
-        ){
-
-          const playerElement =
-            document.createElement("div");
-
-          playerElement.classList.add("player");
-
-          cell.appendChild(playerElement);
-
-        }
-
-        else if(value === "M" && !monsterDefeated){
-
-          const monsterElement =
-            document.createElement("div");
-
-          monsterElement.classList.add("monster");
-
-          monsterElement.textContent = "👹";
-
-          monsterElement.style.display="flex";
-          monsterElement.style.alignItems="center";
-          monsterElement.style.justifyContent="center";
-
-          cell.appendChild(monsterElement);
-
-        }
-
-      }
-
-      map.appendChild(cell);
 
     }
-
-  }
 
 }
 
 
 /* =====================================================
    MOVEMENT
-   ===================================================== */
+===================================================== */
 
-function movePlayer(dx,dy){
+function move(rowChange,colChange) {
 
-  if(!gameStarted || monsterDefeated) return;
-
-  const newX = player.x + dx;
-  const newY = player.y + dy;
-
-  if(newX < 0 || newY < 0) return;
-  if(newY >= maze.length) return;
-  if(newX >= maze[newY].length) return;
-
-  if(maze[newY][newX] === "#"){
-    return;
-  }
-
-  player.x = newX;
-  player.y = newY;
-
-  drawMap();
-
-  checkLocation();
-
-}
+    if(
+        document
+        .getElementById("modal")
+        .classList.contains("show")
+    )
+        return;
 
 
-/* =====================================================
-   LOCATION EVENTS
-   ===================================================== */
+    const newRow =
+        player.row + rowChange;
 
-function checkLocation(){
-
-  const current = maze[player.y][player.x];
-
-  if(current === "M" && !monsterDefeated){
-
-    setTimeout(showMythMonster,250);
-
-  }
-
-}
+    const newCol =
+        player.col + colChange;
 
 
-/* =====================================================
-   MYTH MONSTER
-   ===================================================== */
+    if(!map[newRow])
+        return;
 
-function showMythMonster(){
 
-  currentMyth = 0;
-  mythAnswered = false;
+    if(!map[newRow][newCol])
+        return;
 
-  showMyth();
+
+    if(map[newRow][newCol] === "#")
+        return;
+
+
+    player.row = newRow;
+
+    player.col = newCol;
+
+
+    drawMap();
+
+    checkLocation();
 
 }
 
 
 /* =====================================================
-   SHOW CURRENT MYTH
-   ===================================================== */
+   KEYBOARD
+===================================================== */
 
-function showMyth(){
+document.addEventListener(
+    "keydown",
+    function(event) {
 
-  const myth = myths[currentMyth];
+        const key =
+            event.key.toLowerCase();
 
-  mythAnswered = false;
 
-  let html = `
+        if(
+            !document
+            .getElementById("gameScreen")
+            .classList.contains("active")
+        )
+            return;
 
-    <div style="font-size:55px;">👹</div>
 
-    <h2>${myth.title}</h2>
+        if(key==="arrowup" || key==="w") {
 
-    <p style="color:#ef4444;font-weight:bold;">
-      MYTH MONSTER ATTACK!
-    </p>
+            event.preventDefault();
 
-    <div class="question">
-      ${myth.question}
-    </div>
+            move(-1,0);
 
-    <div class="answers">
-  `;
+        }
 
-  myth.answers.forEach((answer,index)=>{
 
-    html += `
-      <button
-        class="answer"
-        onclick="answerMyth(${index})"
-        id="answer-${index}">
-        ${String.fromCharCode(65+index)}. ${answer}
-      </button>
-    `;
+        if(key==="arrowdown" || key==="s") {
 
-  });
+            event.preventDefault();
 
-  html += `
+            move(1,0);
 
-    </div>
+        }
 
-    <div id="feedback"></div>
 
-  `;
+        if(key==="arrowleft" || key==="a") {
 
-  document.getElementById("modalContent").innerHTML = html;
+            event.preventDefault();
 
-  document.getElementById("modal")
-    .classList.add("active");
+            move(0,-1);
+
+        }
+
+
+        if(key==="arrowright" || key==="d") {
+
+            event.preventDefault();
+
+            move(0,1);
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   LOCATION
+===================================================== */
+
+function checkLocation() {
+
+    const location =
+        map[player.row][player.col];
+
+
+    if(
+        location==="W" &&
+        !completed.W
+    ) {
+
+        openChallenge("W");
+
+    }
+
+
+    if(
+        location==="F" &&
+        !completed.F
+    ) {
+
+        openChallenge("F");
+
+    }
+
+
+    if(
+        location==="H" &&
+        !completed.H
+    ) {
+
+        openChallenge("H");
+
+    }
+
+
+    if(
+        location==="M" &&
+        !completed.M
+    ) {
+
+        openMythBattle();
+
+    }
+
+
+    if(location==="G") {
+
+        const allComplete =
+
+            completed.W &&
+            completed.M &&
+            completed.F &&
+            completed.H;
+
+
+        if(allComplete) {
+
+            finishGame();
+
+        }
+
+        else {
+
+            alert(
+                "🏆 You found the exit!\n\nComplete all your missions first."
+            );
+
+        }
+
+    }
 
 }
 
 
 /* =====================================================
-   ANSWER MYTH
-   ===================================================== */
+   NORMAL CHALLENGE
+===================================================== */
 
-function answerMyth(selected){
+function openChallenge(type) {
 
-  if(mythAnswered) return;
+    currentChallenge = type;
 
-  mythAnswered = true;
 
-  const myth = myths[currentMyth];
+    const challenge =
+        challenges[type];
 
-  const buttons =
-    document.querySelectorAll(".answer");
 
-  buttons.forEach(button=>{
-    button.disabled = true;
-  });
+    document
+        .getElementById("modalIcon")
+        .innerText =
+        challenge.icon;
 
-  if(selected === myth.correct){
 
-    buttons[selected].classList.add("correct");
+    document
+        .getElementById("modalTitle")
+        .innerText =
+        challenge.title;
 
-    xp += 20;
-    knowledge += 10;
 
-    updateStats();
+    document
+        .getElementById("modalQuestion")
+        .innerText =
+        challenge.question;
 
-    document.getElementById("feedback").innerHTML = `
 
-      <div class="feedback">
+    const choices =
+        document.getElementById("choices");
 
-        <strong style="color:#16a34a;">
-          ✅ CORRECT!
-        </strong>
 
-        <p>${myth.explanation}</p>
+    choices.innerHTML = "";
 
-        <p>
-          ⭐ +20 XP &nbsp; 🧠 +10 Knowledge
-        </p>
 
-        <button
-          class="next-button"
-          onclick="nextMyth()">
-          ${currentMyth < myths.length-1
-            ? "⚔️ FIGHT NEXT MYTH"
-            : "👹 DEFEAT THE MONSTER"}
-        </button>
+    document
+        .getElementById("feedback")
+        .classList.remove("show");
 
-      </div>
 
-    `;
+    document
+        .getElementById("healthCard")
+        .style.display =
+        "none";
 
-  }
 
-  else{
+    document
+        .getElementById("nextButton")
+        .style.display =
+        "none";
 
-    buttons[selected].classList.add("wrong");
 
-    buttons[myth.correct].classList.add("correct");
+    challenge.choices.forEach(choice => {
+
+        const button =
+            document.createElement("button");
+
+
+        button.className =
+            "choice";
+
+
+        button.innerText =
+            choice.text;
+
+
+        button.onclick =
+            function() {
+
+                chooseNormalAnswer(choice);
+
+            };
+
+
+        choices.appendChild(button);
+
+    });
+
+
+    document
+        .getElementById("modal")
+        .classList.add("show");
+
+}
+
+
+/* =====================================================
+   NORMAL ANSWER
+===================================================== */
+
+function chooseNormalAnswer(choice) {
+
+    applyPoints(choice.points);
+
+
+    if(choice.item) {
+
+        inventory.push(choice.item);
+
+    }
+
+
+    document
+        .getElementById("feedback")
+        .innerText =
+        (choice.correct ? "✅ " : "💡 ")
+        + choice.feedback;
+
+
+    document
+        .getElementById("feedback")
+        .classList.add("show");
+
+
+    document
+        .getElementById("choices")
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById("nextButton")
+        .style.display =
+        "inline-block";
+
+
+    updateUI();
+
+}
+
+
+/* =====================================================
+   MYTH BATTLE
+===================================================== */
+
+function openMythBattle() {
+
+    mythRound = 0;
+
+    showMythRound();
+
+}
+
+
+/* =====================================================
+   SHOW MYTH ROUND
+===================================================== */
+
+function showMythRound() {
+
+    const round =
+        mythRounds[mythRound];
+
+
+    document
+        .getElementById("modalIcon")
+        .innerText =
+        "👾";
+
+
+    document
+        .getElementById("modalTitle")
+        .innerText =
+        "MYTH MONSTER BATTLE";
+
+
+    document
+        .getElementById("modalQuestion")
+        .innerText =
+        "Round "
+        + (mythRound+1)
+        + " / "
+        + mythRounds.length
+        + "\n\n"
+        + round.question;
+
+
+    const choices =
+        document.getElementById("choices");
+
+
+    choices.innerHTML = "";
+
+
+    const trueButton =
+        document.createElement("button");
+
+
+    trueButton.className =
+        "choice";
+
+
+    trueButton.innerText =
+        "🟢 TRUE";
+
+
+    trueButton.onclick =
+        function() {
+
+            answerMyth("TRUE");
+
+        };
+
+
+    const falseButton =
+        document.createElement("button");
+
+
+    falseButton.className =
+        "choice";
+
+
+    falseButton.innerText =
+        "🔴 FALSE";
+
+
+    falseButton.onclick =
+        function() {
+
+            answerMyth("FALSE");
+
+        };
+
+
+    choices.appendChild(trueButton);
+
+    choices.appendChild(falseButton);
+
+
+    document
+        .getElementById("feedback")
+        .classList.remove("show");
+
+
+    document
+        .getElementById("nextButton")
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById("choices")
+        .style.display =
+        "block";
+
+
+    document
+        .getElementById("modal")
+        .classList.add("show");
+
+}
+
+
+/* =====================================================
+   MYTH ANSWER
+===================================================== */
+
+function answerMyth(answer) {
+
+    const round =
+        mythRounds[mythRound];
+
+
+    const correct =
+        answer === round.answer;
+
+
+    if(correct) {
+
+        applyPoints(round.points);
+
+        addXP(20);
+
+    }
+
+    else {
+
+        loseLife();
+
+        addXP(5);
+
+    }
+
+
+    document
+        .getElementById("feedback")
+        .innerText =
+
+        (correct
+            ? "⚔️ MYTH HIT! "
+            : "💡 THE MYTH GOT YOU! ")
+        + round.explanation;
+
+
+    document
+        .getElementById("feedback")
+        .classList.add("show");
+
+
+    document
+        .getElementById("choices")
+        .style.display =
+        "none";
+
+
+    const next =
+        document.getElementById("nextButton");
+
+
+    next.style.display =
+        "inline-block";
+
+
+    next.innerText =
+
+        mythRound <
+        mythRounds.length-1
+
+            ? "NEXT ROUND 👾"
+
+            : "DEFEAT MONSTER 🎉";
+
+
+    next.onclick =
+        function() {
+
+            if(
+                mythRound <
+                mythRounds.length-1
+            ) {
+
+                mythRound++;
+
+                showMythRound();
+
+            }
+
+            else {
+
+                completed.M = true;
+
+                addXP(50);
+
+                document
+                    .getElementById("modal")
+                    .classList.remove("show");
+
+                document
+                    .getElementById("nextButton")
+                    .onclick =
+                    closeChallenge;
+
+                drawMap();
+
+                updateMissions();
+
+            }
+
+        };
+
+
+    updateUI();
+
+}
+
+
+/* =====================================================
+   POINTS
+===================================================== */
+
+function applyPoints(points) {
+
+    scores.knowledge +=
+        points.knowledge || 0;
+
+
+    scores.confidence +=
+        points.confidence || 0;
+
+
+    scores.care +=
+        points.care || 0;
+
+
+    scores.knowledge =
+        clamp(scores.knowledge);
+
+
+    scores.confidence =
+        clamp(scores.confidence);
+
+
+    scores.care =
+        clamp(scores.care);
+
+
+    addXP(
+        Math.max(
+            5,
+            (points.knowledge || 0) +
+            (points.confidence || 0) +
+            (points.care || 0)
+        )
+    );
+
+
+    updateUI();
+
+}
+
+
+/* =====================================================
+   CLAMP
+===================================================== */
+
+function clamp(number) {
+
+    return Math.max(
+        0,
+        Math.min(100,number)
+    );
+
+}
+
+
+/* =====================================================
+   XP
+===================================================== */
+
+function addXP(amount) {
+
+    xp += amount;
+
+    updateUI();
+
+}
+
+
+/* =====================================================
+   LIFE
+===================================================== */
+
+function loseLife() {
 
     lives--;
 
-    knowledge += 5;
+    updateUI();
 
-    updateStats();
 
-    document.getElementById("feedback").innerHTML = `
+    if(lives <= 0) {
 
-      <div class="feedback">
+        setTimeout(
+            function() {
 
-        <strong style="color:#dc2626;">
-          ❌ NOT QUITE!
-        </strong>
+                alert(
+                    "💗 You ran out of lives!\n\nDon't worry. Every mistake is a chance to learn."
+                );
 
-        <p>
-          The correct answer is:
-          <strong>${myth.answers[myth.correct]}</strong>
-        </p>
+                lives = 3;
 
-        <p>${myth.explanation}</p>
+                updateUI();
 
-        <p>
-          ❤️ -1 Life &nbsp; 🧠 +5 Knowledge
-        </p>
+            },
+            100
+        );
 
-        <button
-          class="next-button"
-          onclick="nextMyth()">
-          ${currentMyth < myths.length-1
-            ? "⚔️ CONTINUE"
-            : "👹 FINISH BATTLE"}
-        </button>
-
-      </div>
-
-    `;
-
-  }
+    }
 
 }
 
 
 /* =====================================================
-   NEXT MYTH
-   ===================================================== */
+   CLOSE CHALLENGE
+===================================================== */
 
-function nextMyth(){
+function closeChallenge() {
 
-  /*
-    THIS IS THE IMPORTANT FIX.
-
-    Instead of closing the challenge after Myth 1,
-    we increment currentMyth and render the NEXT myth.
-  */
-
-  currentMyth++;
-
-  if(currentMyth < myths.length){
-
-    showMyth();
-
-  }
-
-  else{
-
-    defeatMonster();
-
-  }
-
-}
+    if(!currentChallenge)
+        return;
 
 
-/* =====================================================
-   DEFEAT MONSTER
-   ===================================================== */
+    completed[currentChallenge] = true;
 
-function defeatMonster(){
 
-  monsterDefeated = true;
+    document
+        .getElementById("modal")
+        .classList.remove("show");
 
-  xp += 50;
-  knowledge += 20;
 
-  updateStats();
+    document
+        .getElementById("choices")
+        .style.display =
+        "block";
 
-  unlockBadge("🏆 Myth Buster");
 
-  document.getElementById("mission").innerHTML =
-    "🎉 Myth Monster defeated! Find your next challenge.";
+    document
+        .getElementById("nextButton")
+        .style.display =
+        "none";
 
-  document.getElementById("modalContent").innerHTML = `
 
-    <div style="font-size:75px;">💥👹💥</div>
+    drawMap();
 
-    <h2>MYTH MONSTER DEFEATED!</h2>
-
-    <p style="font-size:20px;">
-      You challenged misinformation with knowledge.
-    </p>
-
-    <div class="feedback">
-
-      <strong>🌸 YOU ARE A MYTH BUSTER!</strong>
-
-      <p>
-        You completed all ${myths.length} myth challenges.
-      </p>
-
-      <p>
-        ⭐ +50 XP<br>
-        🧠 +20 Knowledge
-      </p>
-
-    </div>
-
-    <button
-      class="next-button"
-      onclick="closeMonster()">
-      🚀 CONTINUE QUEST
-    </button>
-
-  `;
+    updateUI();
 
 }
 
 
 /* =====================================================
-   CLOSE MONSTER
-   ===================================================== */
+   UI
+===================================================== */
 
-function closeMonster(){
+function updateUI() {
 
-  document.getElementById("modal")
-    .classList.remove("active");
+    document
+        .getElementById("knowledge")
+        .innerText =
+        scores.knowledge;
 
-  drawMap();
+
+    document
+        .getElementById("confidence")
+        .innerText =
+        scores.confidence;
+
+
+    document
+        .getElementById("care")
+        .innerText =
+        scores.care;
+
+
+    document
+        .getElementById("xp")
+        .innerText =
+        xp;
+
+
+    document
+        .getElementById("lives")
+        .innerText =
+        "❤️".repeat(Math.max(0,lives))
+        +
+        "🖤".repeat(Math.max(0,3-lives));
+
+
+    const xpProgress =
+        Math.min(100,(xp % 100));
+
+
+    document
+        .getElementById("xpFill")
+        .style.width =
+        xpProgress + "%";
+
+
+    const inventoryElement =
+        document.getElementById("inventory");
+
+
+    if(inventory.length === 0) {
+
+        inventoryElement.innerText =
+            "Empty";
+
+    }
+
+    else {
+
+        inventoryElement.innerText =
+            inventory.join(" ");
+
+    }
+
+
+    updateMissions();
 
 }
 
 
 /* =====================================================
-   STATS
-   ===================================================== */
+   MISSIONS
+===================================================== */
 
-function updateStats(){
+function updateMissions() {
 
-  document.getElementById("xp").textContent = xp;
-
-  document.getElementById("lives").textContent = lives;
-
-  document.getElementById("knowledge").textContent =
-    knowledge;
-
-}
+    setMission(
+        "missionWashroom",
+        completed.W
+    );
 
 
-/* =====================================================
-   BADGES
-   ===================================================== */
+    setMission(
+        "missionMyth",
+        completed.M
+    );
 
-function unlockBadge(name){
 
-  const badges =
-    document.getElementById("badges");
+    setMission(
+        "missionFriend",
+        completed.F
+    );
 
-  const badge =
-    document.createElement("span");
 
-  badge.className="badge";
-
-  badge.textContent=name;
-
-  badges.appendChild(badge);
+    setMission(
+        "missionHealth",
+        completed.H
+    );
 
 }
 
 
 /* =====================================================
-   KEYBOARD CONTROLS
-   ===================================================== */
+   MISSION STYLE
+===================================================== */
 
-document.addEventListener("keydown",function(event){
+function setMission(id,done) {
 
-  if(!gameStarted) return;
+    const element =
+        document.getElementById(id);
 
-  const key = event.key.toLowerCase();
 
-  if(
-    key === "arrowup" ||
-    key === "w"
-  ){
-    event.preventDefault();
-    movePlayer(0,-1);
-  }
+    if(done) {
 
-  else if(
-    key === "arrowdown" ||
-    key === "s"
-  ){
-    event.preventDefault();
-    movePlayer(0,1);
-  }
+        element.classList.add("done");
 
-  else if(
-    key === "arrowleft" ||
-    key === "a"
-  ){
-    event.preventDefault();
-    movePlayer(-1,0);
-  }
+    }
 
-  else if(
-    key === "arrowright" ||
-    key === "d"
-  ){
-    event.preventDefault();
-    movePlayer(1,0);
-  }
+    else {
 
-});
+        element.classList.remove("done");
+
+    }
+
+}
 
 
 /* =====================================================
-   ERROR HANDLER
-   ===================================================== */
+   END GAME
+===================================================== */
 
-window.onerror = function(message,source,line,column,error){
+function finishGame() {
 
-  const box =
-    document.getElementById("errorBox");
+    const totalXP =
+        xp;
 
-  box.style.display="block";
 
-  box.innerHTML =
-    "⚠️ Game error: " +
-    message +
-    " | Line: " +
-    line;
+    document
+        .getElementById("gameScreen")
+        .classList.remove("active");
 
-};
+
+    document
+        .getElementById("endScreen")
+        .classList.add("active");
+
+
+    document
+        .getElementById("finalScore")
+        .innerText =
+        totalXP;
+
+
+    document
+        .getElementById("finalKnowledge")
+        .innerText =
+        scores.knowledge;
+
+
+    document
+        .getElementById("finalConfidence")
+        .innerText =
+        scores.confidence;
+
+
+    document
+        .getElementById("finalCare")
+        .innerText =
+        scores.care;
+
+
+    let badge = "🌱";
+
+    let title =
+        "Growing Explorer";
+
+    let message =
+        "You explored, made choices and learned along the way. Keep asking questions and seeking reliable information.";
+
+
+    if(totalXP >= 180) {
+
+        badge = "🏆";
+
+        title =
+            "Period Quest Champion";
+
+        message =
+            "Outstanding! You showed strong knowledge, confidence and care throughout your journey.";
+
+    }
+
+    else if(totalXP >= 130) {
+
+        badge = "🌸";
+
+        title =
+            "Confident Navigator";
+
+        message =
+            "Great work! You combined knowledge with thoughtful choices and support for others.";
+
+    }
+
+    else if(totalXP >= 90) {
+
+        badge = "⭐";
+
+        title =
+            "Brave Explorer";
+
+        message =
+            "Nice work! You completed the journey and built your understanding along the way.";
+
+    }
+
+
+    document
+        .getElementById("badge")
+        .innerText =
+        badge;
+
+
+    document
+        .getElementById("badgeTitle")
+        .innerText =
+        title;
+
+
+    document
+        .getElementById("finalMessage")
+        .innerText =
+        message;
+
+}
 
 </script>
 
